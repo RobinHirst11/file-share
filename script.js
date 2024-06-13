@@ -8,25 +8,20 @@ function showLoginForm() {
   loginForm.style.display = "block";
 }
 
-function checkLogin() {
+const correctHash = "85e47ac07ac9d6416168a97e33fa969a";
+
+function login() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  if (username === "robin" && password === "share") {
+  const passwordHash = MD5(password);
+
+  if (username === "robin" && passwordHash === correctHash) {
     loginForm.style.display = "none";
     isLoggedIn = true;
     loadFileList();
     fileListSection.style.display = "block";
-    uploadSection.style.display = "none"; 
-
-    document.getElementById("authButtons").innerHTML = `
-      <span id="loggedInMsg">Logged in as robin</span>
-      <button class="login-btn" onclick="logout()">Logout</button>
-    `;
-  } else {
-    alert("Incorrect username or password");
-  }
-}
+    uploadSection.style.display = "none";
 
 function logout() {
   isLoggedIn = false;
