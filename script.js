@@ -22,6 +22,13 @@ function login() {
     loadFileList();
     fileListSection.style.display = "block";
     uploadSection.style.display = "none";
+    document.getElementById("authButtons").innerHTML = `
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    `; 
+  } else {
+    alert("Invalid username or password.");
+  }
+}
 
 function logout() {
   isLoggedIn = false;
@@ -83,5 +90,9 @@ function getStoredFiles() {
   const storedData = localStorage.getItem("uploadedFiles");
   return storedData ? JSON.parse(storedData) : [];
 }
+
+showLoginForm();
+uploadSection.style.display = "none";
+fileListSection.style.display = "none";
 
 loadFileList(); 
