@@ -2,8 +2,11 @@ const loginForm = document.getElementById("loginForm");
 const uploadSection = document.getElementById("uploadSection");
 const fileListSection = document.getElementById("fileListSection");
 const uploadedFilesList = document.getElementById("uploadedFilesList");
-const authButtons = document.getElementById("authButtons"); // Get the authButtons div
+const authButtons = document.getElementById("authButtons"); 
 let isLoggedIn = false;
+
+// Initially hide the login form
+loginForm.style.display = "none"; 
 
 function showLoginForm() {
   loginForm.style.display = "block";
@@ -11,7 +14,7 @@ function showLoginForm() {
 
 const correctHash = "85e47ac07ac9d6416168a97e33fa969a";
 
-function checkLogin() { // Renamed from login() 
+function checkLogin() { 
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
@@ -22,9 +25,8 @@ function checkLogin() { // Renamed from login()
     isLoggedIn = true;
     loadFileList();
     fileListSection.style.display = "block";
-    uploadSection.style.display = "block"; // Show upload section after login
+    uploadSection.style.display = "block"; 
 
-    // Update authentication buttons after successful login
     authButtons.innerHTML = `
       <button class="logout-btn" onclick="logout()">Logout</button>
     `; 
@@ -94,8 +96,7 @@ function getStoredFiles() {
   return storedData ? JSON.parse(storedData) : [];
 }
 
-// Initial state: Show login form and hide other sections
-showLoginForm();
+// Initial state: Hide upload and file list sections
 uploadSection.style.display = "none";
 fileListSection.style.display = "none";
 
