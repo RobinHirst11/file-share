@@ -2,46 +2,39 @@ const loginForm = document.getElementById("loginForm");
 const uploadSection = document.getElementById("uploadSection");
 const fileListSection = document.getElementById("fileListSection");
 const uploadedFilesList = document.getElementById("uploadedFilesList");
-const authButtons = document.getElementById("authButtons"); 
 let isLoggedIn = false;
-
-// Initially hide the login form
-loginForm.style.display = "none"; 
 
 function showLoginForm() {
   loginForm.style.display = "block";
 }
 
-const correctHash = "85e47ac07ac9d6416168a97e33fa969a";
-
-function checkLogin() { 
+function checkLogin() {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
 
-  const passwordHash = MD5(password);
-
-  if (username === "robin" && passwordHash === correctHash) {
+  if (username === "robin" && password === "share") {
     loginForm.style.display = "none";
     isLoggedIn = true;
     loadFileList();
     fileListSection.style.display = "block";
-    uploadSection.style.display = "block"; 
+    uploadSection.style.display = "none"; 
 
-    authButtons.innerHTML = `
-      <button class="logout-btn" onclick="logout()">Logout</button>
-    `; 
+    document.getElementById("authButtons").innerHTML = `
+      <span id="loggedInMsg">Logged in as robin</span>
+      <button class="login-btn" onclick="logout()">Logout</button>
+    `;
   } else {
-    alert("Invalid username or password.");
+    alert("Incorrect username or password");
   }
 }
 
 function logout() {
   isLoggedIn = false;
-  authButtons.innerHTML = `
+  document.getElementById("authButtons").innerHTML = `
     <button class="login-btn" onclick="showLoginForm()">Login</button>
   `;
   fileListSection.style.display = "none"; 
-  uploadSection.style.display = "none"; 
+  uploadSection.style.display = "block"; 
 }
 
 function uploadFile() {
@@ -96,9 +89,4 @@ function getStoredFiles() {
   return storedData ? JSON.parse(storedData) : [];
 }
 
-// Initial state: Hide upload and file list sections
-uploadSection.style.display = "none";
-fileListSection.style.display = "none";
-
-// Load files from local storage on page load
 loadFileList(); 
