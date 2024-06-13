@@ -2,104 +2,7 @@
 <html>
 <head>
   <title>File Sharing (Demo)</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: sans-serif;
-      margin: 0;
-    }
-    
-    header {
-      background-color: #222;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: flex-end; 
-    }
-
-    #authButtons { 
-      display: flex;
-      align-items: center; 
-    }
-
-    #authButtons button {
-      margin-left: 10px;
-    }
-
-    #loggedInMsg {
-      margin-right: 20px; 
-    }
-
-    .login-btn {
-      background-color: #bc987e;
-      color: #121212;
-      border: none;
-      padding: 8px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: calc(100vh - 50px); 
-      padding: 20px;
-    }
-
-    #uploadSection, #fileListSection {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input[type="text"], input[type="password"], input[type="file"] {
-      margin: 10px 0;
-      padding: 8px;
-      border-radius: 4px;
-      border: 1px solid #555;
-      background-color: #181818; 
-      color: #eee; 
-    }
-
-    button {
-      background-color: #bc987e;
-      color: #121212;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    ul {
-      list-style-type: none; 
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 8px;
-    }
-
-    #loginForm {
-      display: none;
-      position: absolute;
-      top: 60px; 
-      right: 20px; 
-      background-color: #222;
-      padding: 20px;
-      border-radius: 8px;
-      z-index: 10; 
-    }
-
-    #loginForm input {
-      width: calc(100% - 16px); 
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -117,7 +20,7 @@
   <main>
     <div id="uploadSection"> 
       <h2>Upload a File</h2>
-      <input type="file" id="fileInput" multiple> <!— "multiple" attribute added! -->
+      <input type="file" id="fileInput" multiple> 
       <button onclick="uploadFile()">Upload</button>
     </div>
 
@@ -127,93 +30,6 @@
     </div>
   </main>
 
-  <script>
-    const loginForm = document.getElementById("loginForm");
-    const uploadSection = document.getElementById("uploadSection");
-    const fileListSection = document.getElementById("fileListSection");
-    const uploadedFilesList = document.getElementById("uploadedFilesList");
-
-    function showLoginForm() {
-      loginForm.style.display = "block";
-    }
-
-    function checkLogin() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-
-      if (username === "robin" && password === "share") {
-        loginForm.style.display = "none";
-        loadFileList();
-        fileListSection.style.display = "block"; 
-
-        document.getElementById("authButtons").innerHTML = `
-          <span id="loggedInMsg">Logged in as robin</span>
-          <button class="login-btn" onclick="logout()">Logout</button>
-        `;
-      } else {
-        alert("Incorrect username or password");
-      }
-    }
-
-    function logout() {
-      document.getElementById("authButtons").innerHTML = `
-        <button class="login-btn" onclick="showLoginForm()">Login</button>
-      `;
-      fileListSection.style.display = "none"; 
-    }
-
-    function uploadFile() {
-      const fileInput = document.getElementById("fileInput");
-      const files = fileInput.files; 
-
-      if (files.length > 0) {
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const reader = new FileReader();
-
-          reader.onload = (event) => {
-            const fileData = event.target.result;
-            const fileName = file.webkitRelativePath || file.name; 
-
-            const storedFiles = getStoredFiles();
-            storedFiles.push({ name: fileName, data: fileData });
-            localStorage.setItem("uploadedFiles", JSON.stringify(storedFiles));
-
-            loadFileList();
-          };
-          reader.readAsDataURL(file);
-        }
-      } else {
-        alert("Please select a file or folder to upload.");
-      }
-    }
-
-    function loadFileList() {
-      uploadedFilesList.innerHTML = '';
-      const storedFiles = getStoredFiles();
-
-      storedFiles.forEach(file => {
-        const listItem = document.createElement("li");
-        
-        const pathParts = file.name.split("/");
-        const fileName = pathParts[pathParts.length - 1];
-
-        const downloadLink = document.createElement("a");
-        downloadLink.textContent = fileName;
-        downloadLink.href = file.data;
-        downloadLink.download = fileName;
-
-        listItem.appendChild(downloadLink);
-        uploadedFilesList.appendChild(listItem);
-      });
-    }
-
-    function getStoredFiles() {
-      const storedData = localStorage.getItem("uploadedFiles");
-      return storedData ? JSON.parse(storedData) : [];
-    }
-
-    loadFileList(); 
-  </script>
+  <script src="script.js"></script> 
 </body>
 </html>
